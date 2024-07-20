@@ -37,6 +37,7 @@ jobs:
     - name: Run tests
       run: make test
       continue-on-error: true
+      
 
     - name: Collect test results
       if: failure()
