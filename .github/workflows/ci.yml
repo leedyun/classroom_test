@@ -1,44 +1,55 @@
-name: CI
+name: CI # 워크플로우의 이름을 지정. GitHub Actions UI에서 워크플로우 식별에 사용
 
-on:
-  pull_request:
+on: # 워크플로우를 트리거할 이벤트 정의
+  pull_request: # main 브랜치로의 pull request가 생성될 때마다 워크플로우 실행
     branches:
       - main
 
-jobs:
+jobs: # 워크플로우에서 실행할 작업 정의
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
+    steps: # 각 작업의 단계 정의
+    - name: Checkout repository  # 레포지토리 체크아웃
       uses: actions/checkout@v2
 
-    - name: Set up C++
-      uses: actions/setup-cpp@v1
+    - name: Set up C++  # C++ 환경 설정
+      uses: actions/setup-cpp@v1  # C++ 컴파일러와 관련 도구 설치
 
-    - name: Install dependencies
+    - name: Install dependencies  # 필요한 의존성 설치
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential cmake libgtest-dev
 
-    - name: Build Google Test
+    - name: Build Google Test  # Google Test 라이브러리를 빌드하고 설치
       run: |
         cd /usr/src/gtest
         sudo cmake CMakeLists.txt
         sudo make
         sudo cp *.a /usr/lib
 
-    - name: Configure CMake
+    - name: Configure CMake  # CMake를 사용하여 프로젝트 구성
       run: cmake .
 
-    - name: Build the project
+    - name: Build the project  # make 명령어를 사용하여 프로젝트 빌드
       run: make
 
-    - name: Run tests
+    - name: Run tests  # 테스트 실행
       run: make test
-      continue-on-error: true
+      continue-on-error: true  # 테스트가 실패하더라도 다음 단계로 진행
       
 
-    - name: Collect test results
-      if: failure()
+    - name: Collect test results  # 테스트 결과를 수집하고, 실패한 경우 빌드도 실패로 표시
+      if: failure()  # 이전단계가 실패한 경우에만 이 단계 실행
       run: exit 1
+
+
+      
+# <GitHub Actions의 동작 방식>
+# 1. 이벤트 트리거: 학생들이 Pull Request를 생성하면, on 섹션에 정의된 조건에 따라 워크플로우가 트리거됩니다.
+# 2. 작업 실행: jobs 섹션에 정의된 작업이 순차적으로 실행됩니다.
+# 3. 코드 체크아웃: 첫 번째 단계에서는 리포지토리를 체크아웃하여 코드에 접근할 수 있도록 합니다.
+# 4. 환경 설정: C++ 환경을 설정하고, 필요한 의존성을 설치합니다.
+# 5. Google Test 빌드: Google Test 라이브러리를 빌드하고, 프로젝트를 빌드합니다.
+# 6. 테스트 실행: 빌드된 프로젝트에서 테스트를 실행하고, 결과를 수집합니다.
+# 7. 결과 처리: 테스트 결과에 따라 빌드 상태를 결정합니다.
