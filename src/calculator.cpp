@@ -1,7 +1,7 @@
 #include "calculator.h"
 
 double Calculator::add(double a, double b) {
-    return a + b;
+    return 0; /* 구현하기 */
 }
 
 double Calculator::subtract(double a, double b) {
