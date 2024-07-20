@@ -28,18 +28,31 @@ Pull Request가 생성되면, GitHub Actions가 자동으로 빌드 및 테스�
 ## 파일 구성 및 자세한 설명
 
 <프로젝트 구조>
-calculator/
+
+calculator/ 
+
 ├── .github/
+
 │   └── workflows/
+
 │       └── ci.yml
+
 ├── Makefile
+
 ├── src/
+
 │   ├── main.cpp
+
 │   └── calculator.cpp
+
 ├── include/
+
 │   └── calculator.h
+
 └── tests/
-    └── test_calculator.cpp
+
+│   └── test_calculator.cpp
+    
 
 1. include/calculator.h
    - 이 파일은 학생들에게 제공되는 헤더 파일로, 계산기 클래스의 인터페이스를 정의
